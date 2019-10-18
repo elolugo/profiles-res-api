@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status #list of HTTP status codes
 from rest_framework.authentication import TokenAuthentication # Token
+from rest_framework import filters # for searching by a field
 
 from profiles_api import serializers
 from profiles_api import models
@@ -106,3 +107,5 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = models.UserProfile.objects.all()
     authentication_classes = (TokenAuthentication,) # authentication method
     permission_classes = (permissions.UpdateOwnProfile,) # permission method
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name', 'email',) # it can be searched by these fields
