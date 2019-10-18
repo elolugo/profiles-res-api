@@ -5,6 +5,9 @@ from rest_framework import status #list of HTTP status codes
 from rest_framework.authentication import TokenAuthentication # Token
 from rest_framework import filters # for searching by a field
 
+from rest_framework.authtoken.views import ObtainAuthToken # a class
+from rest_framework.settings import api_settings
+
 from profiles_api import serializers
 from profiles_api import models
 from profiles_api import permissions
@@ -109,3 +112,8 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.UpdateOwnProfile,) # permission method
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name', 'email',) # it can be searched by these fields
+
+
+class UserLoginApiView(ObtainAuthToken):
+    """ Handle creating user authentication tokens """
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
